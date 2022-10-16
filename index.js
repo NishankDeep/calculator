@@ -16,7 +16,6 @@ var prev=""; //to store numeric value;
 
 //iterating to all the buttons
 for(var i=0;i<n;i++){
-    // console.log(btn[i].innerHTML);
     btn[i].addEventListener("click",function(event){
           
         var exp=this.innerText;
@@ -28,14 +27,10 @@ for(var i=0;i<n;i++){
 
 // eventListener added to keypress
 document.addEventListener("keydown",function(event){
-    // console.log(event);
     var ky=event.key;
     if(ky=='(' || ky==')' || ky=='+' || ky=='-' || ky=='/' || ky=='%' || ky=='*' || ky=='^' || (!isNaN(ky))){
         evaluatingExpression(ky);
     }
-    // else if(ky=='Enter'){
-    //     evaluatingExpression('=');
-    // }
     else if(ky=='Backspace'){
         evaluatingExpression('X');
     }
@@ -44,6 +39,7 @@ document.addEventListener("keydown",function(event){
 
 //function to find the result of the expression
 function evaluatingExpression(exp){
+    // simply used to keep a track of the opening and closing bracket
     if(exp=='('){
         countO++;
     }
@@ -52,8 +48,9 @@ function evaluatingExpression(exp){
     }
 
     if(exp=='='){
+        // to evaluate the entered expressionn
         if(countO!=countC){
-            // Brackets are unequal
+            // will not give output for incomplete opening and closing bracket
             alert("Some Brackets Are Missing");
         }
         else{
@@ -61,14 +58,13 @@ function evaluatingExpression(exp){
                 store.push(prev);
                 prev="";
             }
-            // console.log(screenVal);
             
-            // screenVal=eval(screenVal);
-            var temp=(convertToPostFix(store));
-            screenVal=temp.toString();
+            
+            var temp=(convertToPostFix(store));//variable storing the evaluated value
+            screenVal=temp.toString(); 
 
-            // console.log(screenVal)
             if(screenVal=="nps"){
+                //if any error occured during the evaluation of the expression 
                 screen.value="Wrong Expression";
             }
             else{
@@ -77,27 +73,28 @@ function evaluatingExpression(exp){
 
             store=[];
             prev=screenVal;
-            // store.push(screenVal);
         }
 
     }
     else if(exp=='C'){
+        // to completely remove the values written in the input area
         countC=0;
         countO=0;
         
         screen.value="";
         screenVal="";
 
-        // ans=[];
         store=[];
         prev="";
 
         console.clear();
     }
     else if(exp=='X'){
-        var temp=screenVal[screenVal.length-1];
-        // console.log(store);
-        // console.log(screenVal);
+        // to perform the single removal of the value from the input screen
+
+        var temp=screenVal[screenVal.length-1];//store the end charachter displayed on the screen
+
+        // if teh value displayed on the screen is single then remove it or else in other case remove the last value and display the rest
         if(screenVal.length==1){
             screenVal="";
             screen.value=screenVal;
@@ -107,6 +104,7 @@ function evaluatingExpression(exp){
             screen.value=screenVal;
         }
 
+        // if the delted value is either opening or closing bracket decrease its count
         if(temp=='('){
             countO--;
         }
@@ -114,15 +112,22 @@ function evaluatingExpression(exp){
             countC--;
         }
 
+        // as after deleting from the screen we also need to remove it from our original store array which will be used for calculation 
         if(store.length!=0 && prev==""){
+            // if prev do not contain any element so we need to remove from our main storage array store
 
+            // extract the last element
             temp=store.pop();
+
+            // extract the substring except the last one
             temp=temp.slice(0,temp.length-1);
+
+            // if it contain some value then add to previous
             if(temp!=''){
                 prev=prev+temp;
             }
 
-
+            // to check whether the last element is number or charachter if it is character then we will push back to the store array back or if it is number we will store in prev for further calculation
             var ch=store.pop();
             if(!isNaN(ch)){
                 prev=prev+ch;
@@ -130,9 +135,9 @@ function evaluatingExpression(exp){
             else{
                 store.push(ch);
             }
-
         }
         else if(prev!=""){
+            // if the prev have any number then we need to remove it from it only
             if(prev.length==1){
                 prev="";
             }
@@ -141,9 +146,6 @@ function evaluatingExpression(exp){
             }
         }
             
-        // console.log("##");
-        // console.log(store);
-        // console.log(screenVal);
     }
     else{
         if(exp=='(' || exp==')'){
@@ -154,6 +156,7 @@ function evaluatingExpression(exp){
             store.push(exp);
         }
         else if(exp=='+' || exp=='-' || exp=='/' || exp=='%' || exp=='*' || exp=='^'){
+            // when the enter value is any operator then we will add it our array store 
             if(prev!=""){
                 store.push(prev);
             }
@@ -162,6 +165,7 @@ function evaluatingExpression(exp){
             prev="";
         }
         else{
+            // when any numeric value is entered
             if(exp=="pi"){
                 exp="3.141592653589793238";
             }
@@ -172,6 +176,7 @@ function evaluatingExpression(exp){
             prev=prev+exp;
         }
 
+        // update the value to be displayed on the screen
         screenVal=screenVal+exp;
         screen.value=screenVal
     }
@@ -179,10 +184,8 @@ function evaluatingExpression(exp){
 
 // function that will convert the given expression to posfixExpression
 function convertToPostFix(screenVal){
-    // console.log(screenVal);
-    // console.log("##");
-    var stack=[];
-    var ans=[];
+    var stack=[];//store the brackets
+    var ans=[];//store the postfix expression 
 
     for(var i=0;i<screenVal.length;i++){
         if(screenVal[i]=='('){
@@ -197,11 +200,13 @@ function convertToPostFix(screenVal){
             stack.pop();
         }
         else if(screenVal[i]=='^' ||screenVal[i]=='+' || screenVal[i]=='-' || screenVal[i]=='/' || screenVal[i]=='%' || screenVal[i]=='*'){
-            
+           
+            // if the priority of the operator already existing in the stack is more than the present it will be first popped
             while((stack.length!=0) && (priority(stack[stack.length-1])>=priority(screenVal[i]))){
                 ans.push(stack.pop());
             }
 
+            // pushed the current operator in the stack
             stack.push(screenVal[i]);
         }
         else{
@@ -209,14 +214,14 @@ function convertToPostFix(screenVal){
         }
     }
 
+    // if the stack is not emptied then this loop will execute
     while(stack.length!=0){
         ans.push(stack.pop());
     }
 
-    // console.log(ans);
-
+    // store the value of the evaluated postfixexpression
     var res=evaluateExp(ans);
-    // console.log(res);
+
     return res;
 }
 
@@ -242,62 +247,56 @@ function priority(symbol){
 
 //evaluate the final expression;
 function evaluateExp(expression){
-    var st=[];
+    var st=[];//used as stack to store the number and also the final ans
 
     for(var i=0;i<expression.length;i++){
         // console.log(st);
         if(expression[i]=='^' ||expression[i]=='+' || expression[i]=='-' || expression[i]=='/' || expression[i]=='%' || expression[i]=='*'){
 
+            // if at any point the stack will contain one element then the evaluation is not possible it will return with no expression value
             if(st.length<=1){
                 return "nps";
             }
+
             var a=st.pop();
             var b=st.pop();
             var an;
 
+            // evaluation the value as per the expression 
             switch(expression[i]){
                 case '+':
-                    // a=st.pop();
-                    // b=st.pop();
                     an=a+b;
                 break;
                 case '-':
-                    // a=st.pop();
-                    // b=st.pop();
                      an=b-a;
                 break;
 
                 case '/':
-                    // a=st.pop();
-                    // b=st.pop();
                     an=b/a;
                 break;
                 case '%':
-                    // a=st.pop();
-                    // b=st.pop();
                     an=b%a;
                 break;
 
                 case '*':
-                    // a=st.pop();
-                    // b=st.pop();
                     an=a*b;
                 break;
                 
                 case '^':
-                    // a=st.pop();
-                    // b=st.pop();
                     an=Math.pow(b,a);
-                    // console.log(an);
                 break;
             }
+
+            // pusing the evaluated ans
             st.push(an);
         }
         else{
+            // parsing the value to float and then pushing to the stack array
             var temp=parseFloat(expression[i]);
             st.push(temp);
         }
     }
 
+    // returnin the final ans if the above condition run successfully
     return st[0];
 }
