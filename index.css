@@ -1,0 +1,154 @@
+*{
+    box-sizing: border-box;
+}
+
+/*  */
+body{
+    background-color: #371B58;
+    font-family: "Charix SIL";
+    color: #FFF2F2;
+
+    text-align: center;
+}
+
+.calculatorCnt{
+    margin-top: 60px;
+}
+
+h1{
+    font-size: 4rem;
+}
+
+/* input number part */
+#nbr{
+    width: 90%;
+    background-color: whitesmoke;
+    height: 60px;
+    margin-left: 50px;
+    margin-right: 50px;
+
+    border-radius: 10px;
+    text-align: right;
+
+    font-size: 2rem;
+}
+
+/* calculator button */
+.btnCalc{
+    margin-top: 10px;
+}
+
+.btnSize{
+    background-color: #9A86A4;
+    border-color: #9A86A4;
+    border-radius: 10px;
+    width: 22.2%;
+    height: 50px;
+
+    font-size: 1.3rem;
+    font-weight: bolder;
+
+    margin: 1px;
+}
+
+.sxbtn3{
+    background-color: #D61C4E;
+    border-color: #D61C4E;
+}
+
+.ffbtn4{
+    background-color: #EF9F9F;
+    border-color: #EF9F9F;
+}
+
+/* footer part */
+.hzline{
+    border-style: dotted;
+
+    border-left: 0 none;
+    border-right: 0 none;
+    border-bottom: 0 none;
+
+    border-width: 8px;
+    width: 30%;
+
+    opacity: 0.4;
+    margin-top: 25px;
+    /* margin-bottom: 0px; */
+}
+
+.contactPrt{
+    color: #9A86A4;
+    font-size: 1.7rem;
+    margin-top: 0px;
+    margin-bottom: 0px;
+}
+
+.icon{
+    margin-top: 3px;
+    /* margin-right: 10px; */
+    
+    font-size: large;
+    padding-bottom: 20px;
+}
+
+.sideDist{
+    color: #9A86A4;
+    padding: 1px 5px;
+    font-size: 20px;
+}
+
+/* hover part */
+
+/* button hover */
+.btnSize:hover{
+    cursor: pointer;
+   
+    box-shadow: 4px 1px 1px #9A86A4;
+}
+
+.sxbtn3:hover{
+    box-shadow: 4px 1px 2px #D61C4E;
+    /* background-color: #D61C4E; */
+}
+
+.ffbtn4:hover{
+    box-shadow: 4px 1px 2px #EF9F9F;
+    /* background-color: #EF9F9F; */
+}
+
+
+
+/* media query */
+@media screen and (max-width: 942px) {
+    .btnCalc{
+        margin-left: 20px;
+    }
+
+    .btnSize{
+        width: 22.7%;
+    }
+}
+
+@media screen and (max-width: 769px) {
+    .btnCalc{
+        margin-left: 23px;
+    }
+
+    .btnSize{
+        width: 22.6%;
+    }
+
+    #nbr{
+        /* width: 90%; */
+        margin-left: 43px;
+        /* padding-right: 20px; */
+    }
+}
+
+
+@media screen and (max-width : 470px) {
+    #nbr{
+        margin-left: 32px
+    }
+}
